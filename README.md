@@ -15,3 +15,5 @@
 - AWS Migration Hub is single place to discover existing server, plan migration and track the status of the migration proccess
   - Migration statergy can be rehost, replatform and refactor of the applications.
   - You can import information about on-premises servers and applications, or you can perform a deeper discovery using AWS Discovery Agent or AWS Discovery Collector, an agentless approach for VMware environments.
+- Migration strategy
+![migration strategy](https://github.com/user-attachments/assets/9d621ef4-aa9f-4b96-b85d-ab864eee9c76)
