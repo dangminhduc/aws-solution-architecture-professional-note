@@ -40,7 +40,19 @@
       - AWS IoT TwinMaker provides built-in connectors for different data stores, including AWS IoT SiteWise for time-series sensor data, Amazon Kinesis Video Streams for video data, and Amazon Simple Storage Service (S3) for document data. 
     - Using the AWS IoT TwinMaker console-based scene composer, import 3D models (such as CAD files and point cloud scans) to compose scenes, and position the 3D assets to correctly match and represent your physical environment and systems. 
     - Create a web-based digital twin application using the AWS IoT TwinMaker plug-in for Amazon Managed Grafana which build dashboards embedding 3D scences and display data insights about the physical systems
-  
+
+## Machine Learning
+- To import time-series data into Amazon Forecast, the time-series data must be stored in S3
+- How to use Fraud Detector
+  - Build, train, and deploy an Amazon Fraud Detector model based on historical events
+  - Generate fraud predictions
+    - Build detector
+    - Add model
+    - Add rules
+    - Configure rule execution and rule order
+    - Review and create detector version -> activate
+- Amazon Comprehend(Natural-language Processing- NLP) is used to extract insight from documents. For ex, it can detect how customers feel about products
+ 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
 - There are 2 ways to share database in Data Lake to other accounts
