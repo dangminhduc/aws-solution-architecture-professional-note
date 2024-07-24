@@ -52,7 +52,11 @@
     - Configure rule execution and rule order
     - Review and create detector version -> activate
 - Amazon Comprehend(Natural-language Processing- NLP) is used to extract insight from documents. For ex, it can detect how customers feel about products
- 
+
+## Security
+- Amazon Detective has role session analysis feature that can provide visibility to role usage, cross-account role assumptions, role-chaining activitiese performed across multiple accounts.
+- AWS Network Firewall can be used to inspect and control traffice between VPCs or subnets in the same VPC using VPC routing enhancements. 
+
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
 - There are 2 ways to share database in Data Lake to other accounts
