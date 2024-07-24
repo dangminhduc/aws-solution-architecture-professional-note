@@ -56,6 +56,37 @@
 ## Security
 - Amazon Detective has role session analysis feature that can provide visibility to role usage, cross-account role assumptions, role-chaining activitiese performed across multiple accounts.
 - AWS Network Firewall can be used to inspect and control traffice between VPCs or subnets in the same VPC using VPC routing enhancements. 
+- AWS Config best practice
+  - Enable AWS Config in all accounts and Regions.
+  - Record configuration changes to ALL resource types.
+  - Record global resources (such as IAM resources) only in one Region.
+  - Ensure that you have a secure Amazon S3 bucket to collect the configuration history and snapshot files.
+  - Specify an Amazon S3 bucket from another (central IT) account for centralized management of history files and snapshots.
+  - Specify an Amazon Simple Notification Service (Amazon SNS) topic from another (central IT) account for centralized management of configuration and compliance notifications.
+  - Use Amazon CloudWatch Events to filter AWS Config notifications and take action.
+  - Set the appropriate permissions for the IAM role assigned to AWS Config.
+    - Use the AWS Config service linked role to allow Config to record resource configuration changes.
+    - If you prefer to create an IAM role for AWS Config yourself, use the AWS managed policy AWS_ConfigRole and attach it to your IAM role.
+  - Ensure that the SNS topic permissions are restricted to only allow AWS Config to publish messages to it.
+  - Turn on periodic snapshots with a minimum frequency of once per day.
+  - Use the AWS CloudTrail Lookup API action to find the API events that occurred in the timeframe when the configuration change occurred.
+  - If you have your own third party ITSM or CMDB solution like ServiceNow or Jira Service desk, use the AWS Service Management connector to feed Config data into those systems.
+  - Identify resources that are undergoing the most configuration changes on a routine basis to control costs.
+  - Use Conformance Packs in your account as well as across your organization.
+  - Leverage the sample templates for conformance packs as a starting point to quickly bootstrap your accounts.
+  - Use AWS Security Hub for an opinionated set of security checks and AWS Config conformance packs for any customization or building your own compliance pack.
+  - Use the AWS Config Rule Development Kit (RDK) for authoring custom rules.
+  - Create change-triggered custom rules for resource types supported in AWS Config.
+  - Create periodic custom rules for resource types not supported in AWS Config.
+  - In a multi-account scenario involving custom rules, centralize the Lambda function in one account for easier management.
+  - Use the AWS Config Rules repository, a community-based source of custom AWS Config rules.
+  - Config rules and conformance packs that have global resources in scope (such as IAM), should only be deployed in one region to avoid costs and API throttling.
+  - For custom rules, while submitting put-evaluations, use “annotations” to add supplementary information about how the evaluation determined the compliance.
+  - Ensure judicious usage of “DeleteResults” and “Re-evaluate”rules functionalities for your config rules to avoid spike in AWS Config billing.
+  - Use the data aggregation feature to aggregate resource configuration and compliance data into a central account.
+  - Create an organizations-based aggregator to aggregate AWS Config data from your entire organization.
+  - Use the Advanced queries feature to centrally query your resource configuration and compliance data.
+  - Use Amazon Athena to query the historical state of your resources.
 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
@@ -63,3 +94,7 @@
   - Lake Formation Tag-based access control: define perssimsion using attributes, to share Data Catalog resource to external IAM principals, AWS accounts, Organizations and organizational units (OUs)(recommended)
   - Lake Formation named resources: allows you to grant Lake Formation permissions with a grant option on Data Catalog tables and databases to external AWS accounts, IAM principals, organizations, or organizational units. The grant operation automatically shares those resources.
 - To run queries against database on other accounts using integrated service such as Athena or Redshift Spectrum, a resource links is required.
+- AWS Service Catalog
+  - Template constrain: Restrict the configuration parameters that are available for the user when launching the product (for example, EC2 instance types or IP ranges).
+  - Launch constraints: Allow you to specify a role for a product in a portfolio. This role is used to provision the resources at launch, so you can restrict user permissions without impacting users’ ability to provision products from the catalog (for example, for marketing users, you can enable them to create campaign websites, but use constraints to restrict their access to provision the underlying databases)
+  - Using service actions, you can enable end users to perform operational tasks, troubleshoot issues, run approved commands, or request permissions in AWS Service Catalog on your provisioned products, without needing to grant end users full access to AWS services. You use AWS Systems Manager documents to define service actions.
