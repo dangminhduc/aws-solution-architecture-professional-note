@@ -17,6 +17,7 @@
   - You can import information about on-premises servers and applications, or you can perform a deeper discovery using AWS Discovery Agent or AWS Discovery Collector, an agentless approach for VMware environments.
 - Migration strategy
 ![migration strategy](https://github.com/user-attachments/assets/9d621ef4-aa9f-4b96-b85d-ab864eee9c76)
+- Discovery Agent can not send log to S3, only to Application Discovery Service. In Migration Hub, enable Data Exploration to query data in Athena.
 
 ## IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
@@ -87,6 +88,7 @@
   - Create an organizations-based aggregator to aggregate AWS Config data from your entire organization.
   - Use the Advanced queries feature to centrally query your resource configuration and compliance data.
   - Use Amazon Athena to query the historical state of your resources.
+- IAM -> Organization activity can check last activities on all services in the organization
 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
@@ -100,3 +102,5 @@
   - Using service actions, you can enable end users to perform operational tasks, troubleshoot issues, run approved commands, or request permissions in AWS Service Catalog on your provisioned products, without needing to grant end users full access to AWS services. You use AWS Systems Manager documents to define service actions.
 - AWS Proton is an infrastructure provisioning and deployment service for serverless and container-based applications across multiple accounts. The platform team can use environment templates to create the environment which includes infrastructure service such as VPC, subnets, route tables, etc. With Proton the IAM service role is supplied along with the templates which consist of the permission required to provision resources
   - Infrastructure can be provisioned in one of serveral ways: AWS managed(using CloudFormation), CodeBuild(using CLI, AWS CDK), or self-managed(terraform) 
+- Elastic Beanstalk managed update require Update level(Minor and patch or patch only) and Weekly update window to perfome the update. During the update process, the application stay available.
+- 
