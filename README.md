@@ -19,6 +19,10 @@
 ![migration strategy](https://github.com/user-attachments/assets/9d621ef4-aa9f-4b96-b85d-ab864eee9c76)
 - Discovery Agent can not send log to S3, only to Application Discovery Service. In Migration Hub, enable Data Exploration to query data in Athena.
 
+## Network
+- NAT Gateway is only for IPv4. With IPv6, if you want to connect to internet from a private subnet, a egress-only internet gateway should be used.
+  - There is no charge for an egress-only internet gateway, but there are data transfer charges for EC2 instances that use internet gateways
+
 ## IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
   - AWS IoT Core provides a fully managed palette of MQTT-based messaging features
@@ -103,4 +107,7 @@
 - AWS Proton is an infrastructure provisioning and deployment service for serverless and container-based applications across multiple accounts. The platform team can use environment templates to create the environment which includes infrastructure service such as VPC, subnets, route tables, etc. With Proton the IAM service role is supplied along with the templates which consist of the permission required to provision resources
   - Infrastructure can be provisioned in one of serveral ways: AWS managed(using CloudFormation), CodeBuild(using CLI, AWS CDK), or self-managed(terraform) 
 - Elastic Beanstalk managed update require Update level(Minor and patch or patch only) and Weekly update window to perfome the update. During the update process, the application stay available.
-- 
+- To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
+- Cognito
+  - User pool are for authentication(identity verification)
+  - Identity pool are for authorization(access control)
