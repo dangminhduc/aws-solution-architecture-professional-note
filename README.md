@@ -32,7 +32,7 @@
     - MQ Telemetry Transport (MQTT) protocol integration using AWS IoT Core.
 - IoT Analytics is a tool to run and operate analytics on massive volumes of IoT data.
   - It is suitable for analyzing data at rest(S3 or Kinesis Data Streams or directly from IoT Core). Can be used with SQL queries and intergrated with QuickSight 
-  - For using Iot Analytics a channel is defined that filters data to be stored and analyzed. The processed data can be stored in time series data storage for futher queries.
+  - For using IoT Analytics a channel is defined that filters data to be stored and analyzed. The processed data can be stored in time series data storage for futher queries.
 - Kinesis Analytics is a suitable service for analyzing streaming data
 - IoT 1-click helps to launch AWS Lambda functions from the ready-to-use simple IoT devices. I can also be used to manage these devices from mobile apps or from the console
 - IoT Events is a service used to detect and respond to events from IoT sensors. It montors sensors for operational changes and initiates actions to alert users.
@@ -45,6 +45,12 @@
       - AWS IoT TwinMaker provides built-in connectors for different data stores, including AWS IoT SiteWise for time-series sensor data, Amazon Kinesis Video Streams for video data, and Amazon Simple Storage Service (S3) for document data. 
     - Using the AWS IoT TwinMaker console-based scene composer, import 3D models (such as CAD files and point cloud scans) to compose scenes, and position the 3D assets to correctly match and represent your physical environment and systems. 
     - Create a web-based digital twin application using the AWS IoT TwinMaker plug-in for Amazon Managed Grafana which build dashboards embedding 3D scences and display data insights about the physical systems
+- IoT Device Defender is a tool to audit configs, authenticate devices, detect anomaly and receive alerts to secure IoT device fleet
+- IoT Device Management helps register, organize, monitor, and remotely manage IoT devices at scale. Integrate with IoT core to easily connect and manage device.
+  - Bulk registe, organize group, update over the air
+  - Create a device tunnel - secure remote SSH session to a device installed behind a restricted firewall
+  - Define jobs or actions, then run it on selected group of devices
+  - 
 
 ## Machine Learning
 - To import time-series data into Amazon Forecast, the time-series data must be stored in S3
