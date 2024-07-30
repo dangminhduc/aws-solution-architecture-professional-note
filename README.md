@@ -22,8 +22,9 @@
 ## Network
 - NAT Gateway is only for IPv4. With IPv6, if you want to connect to internet from a private subnet, a egress-only internet gateway should be used.
   - There is no charge for an egress-only internet gateway, but there are data transfer charges for EC2 instances that use internet gateways
+- Transit Gateway allow enabling multicast and select subnets to include in the multicast domain when associating VPC attachments.
 
-## IoT
+# IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
   - AWS IoT Core provides a fully managed palette of MQTT-based messaging features
 - AWS IoT SiteWise is a managed service that makes it easy to collect, organize, and analyze data from industrial equipment at scale.
@@ -99,6 +100,11 @@
   - Use the Advanced queries feature to centrally query your resource configuration and compliance data.
   - Use Amazon Athena to query the historical state of your resources.
 - IAM -> Organization activity can check last activities on all services in the organization
+- AWS Firewall Manager pre-quisites
+  - Account must be part of AWS Organization and have enabled all features
+  - Firewall Manager must be associate with the management account or associate with a member account that has the appropiate permission
+  - AWS Config for each member account
+  - (Optional) Enable RAM to centrally config Network Firewall or associate Route53 Resolver DNS Firewall rules across accounts and VPCs
 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
@@ -117,3 +123,5 @@
 - Cognito
   - User pool are for authentication(identity verification)
   - Identity pool are for authorization(access control)
+- Kinesis Data Firehose destination: S3, Redshift, OpenSearch, HTTP Endpoint(Datadog, New Relic, Splunk, etc), MongoDB
+  - With Redshift destination, first Firehose deliver data to intermediate S3 bucket, then load data into Redshift cluster using COPY command. All data will not be deleted after loading
