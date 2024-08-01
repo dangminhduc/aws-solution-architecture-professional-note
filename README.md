@@ -18,12 +18,17 @@
 - Migration strategy
 ![migration strategy](https://github.com/user-attachments/assets/9d621ef4-aa9f-4b96-b85d-ab864eee9c76)
 - Discovery Agent can not send log to S3, only to Application Discovery Service. In Migration Hub, enable Data Exploration to query data in Athena.
-- In DMS, the mapping rules(JSON) should be put in source endpoint config 
+- Application Discovery Service Agentless Collector for VMWare is a virtual machine, which is provided via an OVA file. It needs a IAM user credentials to authenticate with AWS to forward to the Application Discovery Service.
+- In DMS, the mapping rules(JSON) should be put in source endpoint config
 
 ## Network
 - NAT Gateway is only for IPv4. With IPv6, if you want to connect to internet from a private subnet, a egress-only internet gateway should be used.
   - There is no charge for an egress-only internet gateway, but there are data transfer charges for EC2 instances that use internet gateways
 - Transit Gateway allow enabling multicast and select subnets to include in the multicast domain when associating VPC attachments.
+- Route53 Resolver
+  - Inbound endpoints allow DNS queries to your VPC from on-premise network or another VPC
+  - Outbound endpoints allow DNS queries from your VPC to on-premise network or another VPC
+  - Resolver rules enable you to create one forwarding rule for each domain name and specify the name of the domain for which you want to forward DNS queries from your VPC to an on-premises DNS resolver and from your on-premises to your VPC. Rules are applied directly to your VPC and can be shared across multiple accounts. 
 
 # IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
@@ -127,3 +132,6 @@
 - Kinesis Data Firehose destination: S3, Redshift, OpenSearch, HTTP Endpoint(Datadog, New Relic, Splunk, etc), MongoDB
   - With Redshift destination, first Firehose deliver data to intermediate S3 bucket, then load data into Redshift cluster using COPY command. All data will not be deleted after loading
 - Output of Kinesis Rekognition should be stored in Kinesis datastream. 
+- AWS Transcribe is an automatic speech recognition service that use machine learning models to convert audio to text. Polly is the opposite way(text to speech)
+- API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
+  - When client attemps to invoke unsupported API method or resources, API Gateway will return 403 MISSING_AUTHENTICATION_TOKEN, not 404 by default
