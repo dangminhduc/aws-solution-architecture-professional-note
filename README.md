@@ -18,6 +18,7 @@
 - Migration strategy
 ![migration strategy](https://github.com/user-attachments/assets/9d621ef4-aa9f-4b96-b85d-ab864eee9c76)
 - Discovery Agent can not send log to S3, only to Application Discovery Service. In Migration Hub, enable Data Exploration to query data in Athena.
+- In DMS, the mapping rules(JSON) should be put in source endpoint config 
 
 ## Network
 - NAT Gateway is only for IPv4. With IPv6, if you want to connect to internet from a private subnet, a egress-only internet gateway should be used.
@@ -125,3 +126,4 @@
   - Identity pool are for authorization(access control)
 - Kinesis Data Firehose destination: S3, Redshift, OpenSearch, HTTP Endpoint(Datadog, New Relic, Splunk, etc), MongoDB
   - With Redshift destination, first Firehose deliver data to intermediate S3 bucket, then load data into Redshift cluster using COPY command. All data will not be deleted after loading
+- Output of Kinesis Rekognition should be stored in Kinesis datastream. 
