@@ -3,6 +3,8 @@
 ## Cost Management 
 - Compute Optimizer creates a dashboard shows you savings and performance improvement opportunities at the account level.
   - Only works with EC2, Lambda and EBS
+  - Default infrastructure metric: recommendation with metric from **14** days period
+  - Enhanced infrastructure metric: recommendation with metric from **90** days period
  
 ## Global Infrastructure
 - Global Accelerator can only be placed in front of Load Balancers, not CloudFront Distribuitions.
@@ -135,3 +137,4 @@
 - AWS Transcribe is an automatic speech recognition service that use machine learning models to convert audio to text. Polly is the opposite way(text to speech)
 - API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
   - When client attemps to invoke unsupported API method or resources, API Gateway will return 403 MISSING_AUTHENTICATION_TOKEN, not 404 by default
+- In API Gateway, response can be cached reduce load to backend
