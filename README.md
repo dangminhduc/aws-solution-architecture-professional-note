@@ -113,6 +113,37 @@
   - Firewall Manager must be associate with the management account or associate with a member account that has the appropiate permission
   - AWS Config for each member account
   - (Optional) Enable RAM to centrally config Network Firewall or associate Route53 Resolver DNS Firewall rules across accounts and VPCs
+- Using AD Connector in the AWS Directory Service as a directory gateway to forward directory requests. Connect IAM Identity Center to the self-managed AD by using the AD Connector.
+  - Trust relationship between AWS Managed Microsoft AD and the self-managed AD should be two-way and can not be one-way.
+
+## Cognito
+- To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
+- Cognito
+  - User pool are for authentication(identity verification)
+  - Identity pool are for authorization(access control)
+- Amazon Cognito has two different flows for authentication with public providers: enhanced and basic.
+  - Enhanced (simplified) authflow
+    - Your application presents a proof of authentication–a JSON web token or a SAML assertion–from an authorized Amazon Cognito user pool or third-party identity provider in a GetID request.
+    - Your identity pool returns an identity ID.
+    - Your application combines the identity ID with the same proof of authentication in a `GetCredentialsForIdentity` request.
+    - Your identity pool returns AWS credentials.
+    - Your application signs AWS API requests with the temporary credentials.
+  - Basic (classic) authflow
+    - Your application presents a proof of authentication–a JSON web token or a SAML assertion–from an authorized Amazon Cognito user pool or third-party identity provider in a GetID request.
+    - Your identity pool returns an identity ID.
+    - Your application combines the identity ID with the same proof of authentication in a `GetOpenIdToken` request.
+    - GetOpenIdToken returns a new OAuth 2.0 token that is issued by your identity pool.
+    - Your application presents the new token in an AssumeRoleWithWebIdentity request.
+    - AWS Security Token Service AWS STS returns AWS credentials.
+    - Your application signs AWS API requests with the temporary credentials.
+
+## API Gateway
+- API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
+  - When client attemps to invoke unsupported API method or resources, API Gateway will return 403 MISSING_AUTHENTICATION_TOKEN, not 404 by default
+- In API Gateway, response can be cached reduce load to backend
+- For Lambda integration
+  - Proxy Integration: API Gateway passes the raw request to the integrated Lambda function as it is
+  - Custom Integration: mapping of the query string parameter for the Lambda function is provided via the user property of the JSON payload.
 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
@@ -127,14 +158,11 @@
 - AWS Proton is an infrastructure provisioning and deployment service for serverless and container-based applications across multiple accounts. The platform team can use environment templates to create the environment which includes infrastructure service such as VPC, subnets, route tables, etc. With Proton the IAM service role is supplied along with the templates which consist of the permission required to provision resources
   - Infrastructure can be provisioned in one of serveral ways: AWS managed(using CloudFormation), CodeBuild(using CLI, AWS CDK), or self-managed(terraform) 
 - Elastic Beanstalk managed update require Update level(Minor and patch or patch only) and Weekly update window to perfome the update. During the update process, the application stay available.
-- To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
-- Cognito
-  - User pool are for authentication(identity verification)
-  - Identity pool are for authorization(access control)
 - Kinesis Data Firehose destination: S3, Redshift, OpenSearch, HTTP Endpoint(Datadog, New Relic, Splunk, etc), MongoDB
   - With Redshift destination, first Firehose deliver data to intermediate S3 bucket, then load data into Redshift cluster using COPY command. All data will not be deleted after loading
 - Output of Kinesis Rekognition should be stored in Kinesis datastream. 
 - AWS Transcribe is an automatic speech recognition service that use machine learning models to convert audio to text. Polly is the opposite way(text to speech)
-- API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
-  - When client attemps to invoke unsupported API method or resources, API Gateway will return 403 MISSING_AUTHENTICATION_TOKEN, not 404 by default
-- In API Gateway, response can be cached reduce load to backend
+- CloudFormation StackSets can be deploy with either `self-managed` or `service-managed` permissions.
+  - self-managed: you can deploy stack instances to specific AWS accounts in specific Regions. To do this, you must first create the necessary IAM roles to establish a trusted relationship between the account you're administering the stack set from and the account you're deploying stack instances to.
+  - service-managed: you can deploy stack instances to accounts managed by AWS Organizations in specific Regions. With this model, you don't need to create the necessary IAM roles; StackSets creates the IAM roles on your behalf. You can also enable automatic deployments to accounts that are added to a target organization or organizational unit (OU) in the future. With automatic deployments enabled, StackSets automatically deletes stack instances from an account if it's removed from a target organization or OU.
+- AWS Local Zones bring some AWS Services(EC2, EBS, Shield, ELB, ECS, EKS, VPC, Direct Connect, FSx) closer to end-users to reduce latency
