@@ -115,6 +115,7 @@
   - (Optional) Enable RAM to centrally config Network Firewall or associate Route53 Resolver DNS Firewall rules across accounts and VPCs
 - Using AD Connector in the AWS Directory Service as a directory gateway to forward directory requests. Connect IAM Identity Center to the self-managed AD by using the AD Connector.
   - Trust relationship between AWS Managed Microsoft AD and the self-managed AD should be two-way and can not be one-way.
+- AWS Identity and Access Management (IAM) Access Analyzer helps to identify resources in your organization and accounts, such as S3 buckets or IAM roles, that are shared with an external entity.
 
 ## Cognito
 - To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
@@ -165,4 +166,11 @@
 - CloudFormation StackSets can be deploy with either `self-managed` or `service-managed` permissions.
   - self-managed: you can deploy stack instances to specific AWS accounts in specific Regions. To do this, you must first create the necessary IAM roles to establish a trusted relationship between the account you're administering the stack set from and the account you're deploying stack instances to.
   - service-managed: you can deploy stack instances to accounts managed by AWS Organizations in specific Regions. With this model, you don't need to create the necessary IAM roles; StackSets creates the IAM roles on your behalf. You can also enable automatic deployments to accounts that are added to a target organization or organizational unit (OU) in the future. With automatic deployments enabled, StackSets automatically deletes stack instances from an account if it's removed from a target organization or OU.
-- AWS Local Zones bring some AWS Services(EC2, EBS, Shield, ELB, ECS, EKS, VPC, Direct Connect, FSx) closer to end-users to reduce latency
+- AWS Local Zones vs Wavelength Zones vs Outpost
+  - Local Zones is and extent of AWS Region to bring some AWS Services(EC2, EBS, Shield, ELB, ECS, EKS, VPC, Direct Connect, FSx) closer to end-users to reduce latency.
+  - Wavelength Zones deploys some standard AWS Services(EC2, ECS, EKS, CloudWatch, CloudTrail, CloudFormation, ALB) at the edge of communications service providers' networks. Resources inside wavelength zone connect to outsite via carrier gateway(act like NAT gateway)
+  - Outpost: AWS Service at on-premise location
+- Step Functions supports 3 type of workflows
+  - Standard Workflows(exactly-once) are ideal for long-running (up to one year), durable, and auditable workflows. You can retrieve the full execution history using the Step Functions API for up to 90 days after your execution completes. Standard Workflows follow an exactly-once model, where your tasks and states are never run more than once, unless you have specified Retry behavior in ASL. This makes Standard Workflows suited to orchestrating non-idempotent actions, such as starting an Amazon EMR cluster or processing payments. Standard Workflow executions are billed according to the number of state transitions processed.
+  - Asynchronous Express Workflows(At-least-once) return confirmation that the workflow was started, but don't wait for the workflow to complete. To get the result, you must poll the service's CloudWatch Logs. You can use Asynchronous Express Workflows when you don't require immediate response output, such as messaging services or data processing that other services don't depend on. You can start Asynchronous Express Workflows in response to an event, by a nested workflow in Step Functions, or by using the StartExecution API call.
+  - Synchronous Express Workflows(At-most-once) start a workflow, wait until it completes, and then return the result. Synchronous Express Workflows can be used to orchestrate microservices. With Synchronous Express Workflows, you can develop applications without the need to develop additional code to handle errors, retries, or run parallel tasks. You can run Synchronous Express Workflows invoked from Amazon API Gateway, AWS Lambda, or by using the StartSyncExecution API call. 
