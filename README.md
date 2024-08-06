@@ -56,11 +56,17 @@
     - Create a web-based digital twin application using the AWS IoT TwinMaker plug-in for Amazon Managed Grafana which build dashboards embedding 3D scences and display data insights about the physical systems
 - IoT Device Defender is a tool to audit configs, authenticate devices, detect anomaly and receive alerts to secure IoT device fleet
 - IoT Device Management helps register, organize, monitor, and remotely manage IoT devices at scale. Integrate with IoT core to easily connect and manage device.
-  - Bulk registe, organize group, update over the air
+  - Bulk register, organize group, update over the air
   - Create a device tunnel - secure remote SSH session to a device installed behind a restricted firewall
   - Define jobs or actions, then run it on selected group of devices
-  - 
-
+- AWS IoT rules allow devices to interact with AWS services. Rules are analyzed and actions are performed based on MQTT topic streams
+  - Augment or filter data received from a device
+  - Write data received from a device to DynamoDB
+  - Save a file to S3
+  - Send notification using SNS
+  - Publish data to SQS
+- AWS IoT Greengrass is software that lets customers run local compute, messaging, data caching, sync, and ML inference capabilities for connected devices, allowing connected devices to operate even with intermittent connectivity to the cloud. After the device reconnects, AWS IoT Greengrass synchronizes the data on the device with AWS IoT Core, providing constant functionality regardless of connectivity. AWS IoT Greengrass seamlessly extends AWS to devices so they can act locally on the data they generate, while still using the cloud for management, analytics, and durable storage.
+  
 ## Machine Learning
 - To import time-series data into Amazon Forecast, the time-series data must be stored in S3
 - How to use Fraud Detector
@@ -137,6 +143,7 @@
     - Your application presents the new token in an AssumeRoleWithWebIdentity request.
     - AWS Security Token Service AWS STS returns AWS credentials.
     - Your application signs AWS API requests with the temporary credentials.
+- When a custom domain is added to Cognito user pool, a CloudFront distribuition is created with and ACM. This CloudFront distribuition is owned by Cognito and not by the individual account
 
 ## API Gateway
 - API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
@@ -168,9 +175,18 @@
   - service-managed: you can deploy stack instances to accounts managed by AWS Organizations in specific Regions. With this model, you don't need to create the necessary IAM roles; StackSets creates the IAM roles on your behalf. You can also enable automatic deployments to accounts that are added to a target organization or organizational unit (OU) in the future. With automatic deployments enabled, StackSets automatically deletes stack instances from an account if it's removed from a target organization or OU.
 - AWS Local Zones vs Wavelength Zones vs Outpost
   - Local Zones is and extent of AWS Region to bring some AWS Services(EC2, EBS, Shield, ELB, ECS, EKS, VPC, Direct Connect, FSx) closer to end-users to reduce latency.
-  - Wavelength Zones deploys some standard AWS Services(EC2, ECS, EKS, CloudWatch, CloudTrail, CloudFormation, ALB) at the edge of communications service providers' networks. Resources inside wavelength zone connect to outsite via carrier gateway(act like NAT gateway)
+  - Wavelength Zones deploys some standard AWS Services(EC2(some instance types are supported), EBS(gp2 only, max 30TB) ECS, EKS, CloudWatch, CloudTrail, CloudFormation, ALB) at the edge of communications service providers' networks. Resources inside wavelength zone connect to outsite via carrier gateway(act like NAT gateway). You can not assign IPv6 address to subnets that are in Wavelength Zones
   - Outpost: AWS Service at on-premise location
+- EC2 instances that are in two different Wavelength Zones in the same VPC are not allowed to communicate with each other. If you need communication from one Wavelength Zone to another Wavelength Zone, we recommends that you use multiple VPCs, one for each Wavelength Zone. You can use a transit gateway to connect the VPCs. This configuration enables communication between instances in the Wavelength Zones. 
 - Step Functions supports 3 type of workflows
   - Standard Workflows(exactly-once) are ideal for long-running (up to one year), durable, and auditable workflows. You can retrieve the full execution history using the Step Functions API for up to 90 days after your execution completes. Standard Workflows follow an exactly-once model, where your tasks and states are never run more than once, unless you have specified Retry behavior in ASL. This makes Standard Workflows suited to orchestrating non-idempotent actions, such as starting an Amazon EMR cluster or processing payments. Standard Workflow executions are billed according to the number of state transitions processed.
   - Asynchronous Express Workflows(At-least-once) return confirmation that the workflow was started, but don't wait for the workflow to complete. To get the result, you must poll the service's CloudWatch Logs. You can use Asynchronous Express Workflows when you don't require immediate response output, such as messaging services or data processing that other services don't depend on. You can start Asynchronous Express Workflows in response to an event, by a nested workflow in Step Functions, or by using the StartExecution API call.
-  - Synchronous Express Workflows(At-most-once) start a workflow, wait until it completes, and then return the result. Synchronous Express Workflows can be used to orchestrate microservices. With Synchronous Express Workflows, you can develop applications without the need to develop additional code to handle errors, retries, or run parallel tasks. You can run Synchronous Express Workflows invoked from Amazon API Gateway, AWS Lambda, or by using the StartSyncExecution API call. 
+  - Synchronous Express Workflows(At-most-once) start a workflow, wait until it completes, and then return the result. Synchronous Express Workflows can be used to orchestrate microservices. With Synchronous Express Workflows, you can develop applications without the need to develop additional code to handle errors, retries, or run parallel tasks. You can run Synchronous Express Workflows invoked from Amazon API Gateway, AWS Lambda, or by using the StartSyncExecution API call.
+- Timestream is a serverless time series database which can be use to store and analyze events.
+  - Compare to traditional relational databases, it cost less. 
+  - 2 tiers of storage: memory store and magnetic store.
+  - Based on retention policies, data can be moved from memory store to magnetic store for optimize cost
+- S3 SSE-KMS encryption cost can be reduced by using bucket key
+- 2 ways to play video stream from Kinesis Video Streams
+  - GetHLSStreamingSessionURL: Using HLS(HTTP Live Streaming) format, can be used in a media player or mobile phone player
+  - GetDASHStreamingSessionURL: Using MPEG Dynamic Streaming over HTTP, can be opend in the URL of the media player
