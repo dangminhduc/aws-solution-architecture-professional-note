@@ -144,6 +144,7 @@
     - AWS Security Token Service AWS STS returns AWS credentials.
     - Your application signs AWS API requests with the temporary credentials.
 - When a custom domain is added to Cognito user pool, a CloudFront distribuition is created with and ACM. This CloudFront distribuition is owned by Cognito and not by the individual account
+- In addition to the access token returned by IdP, a Cognito Identity ID is also returned to provide a set of temporary, limited-privilege AWS credentials. If you're allowing unauthenticated users, you can retrive a unique identity ID immediately. If you're authenticating users, you can retrive the identity ID after setting the login tokens in the credentials provider.
 
 ## API Gateway
 - API Gateway supported response types: https://docs.aws.amazon.com/apigateway/latest/developerguide/supported-gateway-response-types.html
@@ -152,6 +153,13 @@
 - For Lambda integration
   - Proxy Integration: API Gateway passes the raw request to the integrated Lambda function as it is
   - Custom Integration: mapping of the query string parameter for the Lambda function is provided via the user property of the JSON payload.
+- API Gateway supports multiple mechanisms for controlling and managing access to your API.You can use the following mechanisms for authentication and authorization:
+  - Resource policies let you create resource-based policies to allow or deny access to your APIs and methods from specified source IP addresses or VPC endpoints. For more information, see Control access to a REST API with API Gateway resource policies.
+  - Standard AWS IAM roles and policies offer flexible and robust access controls that can be applied to an entire API or individual methods. IAM roles and policies can be used for controlling who can create and manage your APIs, as well as who can invoke them. For more information, see Control access to a REST API with IAM permissions.
+  - IAM tags can be used together with IAM policies to control access. For more information, see Using tags to control access to API Gateway REST API resources.
+  - Endpoint policies for interface VPC endpoints allow you to attach IAM resource policies to interface VPC endpoints to improve the security of your private APIs. For more information, see Use VPC endpoint policies for private APIs in API Gateway.
+  - Lambda authorizers are Lambda functions that control access to REST API methods using bearer token authentication—as well as information described by headers, paths, query strings, stage variables, or context variables request parameters. Lambda authorizers are used to control who can invoke REST API methods. For more information, see Use API Gateway Lambda authorizers.
+  - Amazon Cognito user pools let you create customizable authentication and authorization solutions for your REST APIs. Amazon Cognito user pools are used to control who can invoke REST API methods. For more information, see Control access to REST APIs using Amazon Cognito user pools as an authorizer.
 
 ## Others
 - Default retetion period of Kinesis DataStream is 24 hours, can be extended up to 365 days.
@@ -190,3 +198,16 @@
 - 2 ways to play video stream from Kinesis Video Streams
   - GetHLSStreamingSessionURL: Using HLS(HTTP Live Streaming) format, can be used in a media player or mobile phone player
   - GetDASHStreamingSessionURL: Using MPEG Dynamic Streaming over HTTP, can be opend in the URL of the media player
+- When mounting EFS with TLS option(encrypt at transit). there is no need to allow traffic on specific port
+- Lambda layer is a .zip file archive that contains supplementary code or data. Layers usually contain library dependencies, a custom runtime or configuration files.
+- Lambda extensions can be used to integrate with monitoring, observability, security, governance tools
+  - Extenal: runs as an independent process in the execution environment and continues to run after the function invocation is fully processed.
+  - Internal: extension runs as part of the runtime process. Your function accesses internal extensions by using wrapper scripts or in-process mechanisms such as JAVA_TOOL_OPTIONS.
+- The AWS-generated cost allocation tags must be activated via Billing and Cost Management console. This tag will only appear only in the Billing console, not anywhere else
+- Storage Gateway provides three types of storage interfaces for your on-premises applications: file, volume, and tape.
+  - The Amazon S3 File Gateway enables you to store and retrieve objects in Amazon Simple Storage Service (S3) using file protocols such as Network File System (NFS) and Server Message Block (SMB). Objects written through S3 File Gateway can be directly accessed in S3.
+  - The Amazon FSx File Gateway enables you to store and retrieve files in Amazon FSx for Windows File Server using the SMB protocol. Files written through Amazon FSx File Gateway are directly accessible in Amazon FSx for Windows File Server.
+  - The Volume Gateway provides block storage to your on-premises applications using iSCSI connectivity. Data on the volumes is stored in Amazon S3 and you can take point-in-time copies of volumes that are stored in AWS as Amazon EBS snapshots. You can also take copies of volumes and manage their retention using AWS Backup. You can restore EBS snapshots to a Volume Gateway volume or an EBS volume.
+  - The Tape Gateway provides your backup application with an iSCSI virtual tape library (VTL) interface, consisting of a virtual media changer, virtual tape drives, and virtual tapes. Virtual tapes are stored in Amazon S3 and can be archived to Amazon S3 Glacier or Amazon S3 Glacier Deep Archive.
+- To switch role between accounts, either switch directly from AWS console once you logged in or using the switch role page that came from email sent by the administrator. The link can be found found when the target role is created.
+- In SQS the visibility time out can be set either via queue's default setting or individually for every message.
