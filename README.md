@@ -30,9 +30,17 @@
 - Route53 Resolver
   - Inbound endpoints allow DNS queries to your VPC from on-premise network or another VPC
   - Outbound endpoints allow DNS queries from your VPC to on-premise network or another VPC
-  - Resolver rules enable you to create one forwarding rule for each domain name and specify the name of the domain for which you want to forward DNS queries from your VPC to an on-premises DNS resolver and from your on-premises to your VPC. Rules are applied directly to your VPC and can be shared across multiple accounts. 
+  - Resolver rules enable you to create one forwarding rule for each domain name and specify the name of the domain for which you want to forward DNS queries from your VPC to an on-premises DNS resolver and from your on-premises to your VPC. Rules are applied directly to your VPC and can be shared across multiple accounts.
+- To create AWS Site-to-Site VPN
+  - Create a customer gateway: Need a Border Gateway Protocol(BGP) Autonomous System Number(ASN) if the routing type is dynamic; a static internet-routable IP address for the customer gateway device
+  - Create a target gateway(on the AWS side of connection), can be a virtual private gateway or transit gateway
+  - Config routing: configure your route table to include the routes used by your VPN connection and point them to your virtual private gateway or transit gateway.
+  - Update your security group
+  - Create a VPN connection: Create the VPN connection using the customer gateway in combination with the virtual private gateway or transit gateway that you created earlier.
+  - Download the configuration file: After you create the VPN connection, you can download a sample configuration file to use for configuring the customer gateway device.
+  - Configure the customer gateway device: Use the sample configuration file to configure your customer gateway device. The customer gateway device is the physical or software appliance on your side of the VPN connection
 
-# IoT
+## IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
   - AWS IoT Core provides a fully managed palette of MQTT-based messaging features
 - AWS IoT SiteWise is a managed service that makes it easy to collect, organize, and analyze data from industrial equipment at scale.
@@ -211,3 +219,9 @@
   - The Tape Gateway provides your backup application with an iSCSI virtual tape library (VTL) interface, consisting of a virtual media changer, virtual tape drives, and virtual tapes. Virtual tapes are stored in Amazon S3 and can be archived to Amazon S3 Glacier or Amazon S3 Glacier Deep Archive.
 - To switch role between accounts, either switch directly from AWS console once you logged in or using the switch role page that came from email sent by the administrator. The link can be found found when the target role is created.
 - In SQS the visibility time out can be set either via queue's default setting or individually for every message.
+- You can use intrinsic functions only in specific parts of a CloudFormation template. Currently, you can use intrinsic functions in resource properties, outputs, metadata attributes, and update policy attributes. You can also use intrinsic functions to conditionally create stack resources.
+- System Manager managed EC2 and non-EC2 instance via SSM Agent, and it free of charge on standard tier(up to 1000 instances).
+- State Manager vs Maintenance Windows:
+  - State Manager sets and maintains the targeted state configuration for managed nodes and AWS resources within your AWS account.You can define combinations of configurations and targets as association objects. State Manager is the recommended capability if you want to maintain all managed nodes in your account in a consistent state, use Amazon EC2 Auto Scaling to generate new nodes, or have strict compliance reporting requirements for the managed nodes in your account.
+  - A maintenance window takes one or more actions on AWS resources within a given time window. You can define a single maintenance window with start and end times. You can specify multiple tasks to run within this maintenance window.
+- 
