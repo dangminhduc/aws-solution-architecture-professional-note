@@ -5,6 +5,10 @@
   - Only works with EC2, Lambda and EBS
   - Default infrastructure metric: recommendation with metric from **14** days period
   - Enhanced infrastructure metric: recommendation with metric from **90** days period
+- You can config AWS Budgets with an alert threshold, a budget action to apply
+  - Notification via ChatBot, SNS or Email
+  - apply a SCP for OUs or AWS accounts(only management account)
+  - action targeting specific EC2 or RDS
  
 ## Global Infrastructure
 - Global Accelerator can only be placed in front of Load Balancers, not CloudFront Distribuitions.
@@ -31,6 +35,7 @@
   - Inbound endpoints allow DNS queries to your VPC from on-premise network or another VPC
   - Outbound endpoints allow DNS queries from your VPC to on-premise network or another VPC
   - Resolver rules enable you to create one forwarding rule for each domain name and specify the name of the domain for which you want to forward DNS queries from your VPC to an on-premises DNS resolver and from your on-premises to your VPC. Rules are applied directly to your VPC and can be shared across multiple accounts.
+  - Should be created with specific availablibity zone.
 - To create AWS Site-to-Site VPN
   - Create a customer gateway: Need a Border Gateway Protocol(BGP) Autonomous System Number(ASN) if the routing type is dynamic; a static internet-routable IP address for the customer gateway device
   - Create a target gateway(on the AWS side of connection), can be a virtual private gateway or transit gateway
@@ -202,6 +207,7 @@
   - Compare to traditional relational databases, it cost less. 
   - 2 tiers of storage: memory store and magnetic store.
   - Based on retention policies, data can be moved from memory store to magnetic store for optimize cost
+  - Scheduled query can be used for reports, or for alarms that detect anomalies
 - S3 SSE-KMS encryption cost can be reduced by using bucket key
 - 2 ways to play video stream from Kinesis Video Streams
   - GetHLSStreamingSessionURL: Using HLS(HTTP Live Streaming) format, can be used in a media player or mobile phone player
@@ -224,4 +230,18 @@
 - State Manager vs Maintenance Windows:
   - State Manager sets and maintains the targeted state configuration for managed nodes and AWS resources within your AWS account.You can define combinations of configurations and targets as association objects. State Manager is the recommended capability if you want to maintain all managed nodes in your account in a consistent state, use Amazon EC2 Auto Scaling to generate new nodes, or have strict compliance reporting requirements for the managed nodes in your account.
   - A maintenance window takes one or more actions on AWS resources within a given time window. You can define a single maintenance window with start and end times. You can specify multiple tasks to run within this maintenance window.
-- 
+- To access S3 on Outposts buckets and objects, you must have
+  - An access point for the VPC
+  - And endpoint for the same VPC
+  - An active connection between your Outposts and your AWS regions
+  - Note: Because the AWS Management Console is hosted in-Region, you can't use the console to upload or manage objects in your Outpost. However, you can use the REST API, AWS Command Line Interface (AWS CLI), and AWS SDKs to upload and manage your objects through your access points.
+- S3 on Outposts has 2 access type: Private(for VPC routing) or CustomerOwnedIP(to work with both on-premise network and VPC)
+- To configure SSM Agent to send log data to CloudWatch Logs, edit the `/etc/amazon/ssm/seelog.xml.template`
+- CloudWatch Canary blueprint can be used for follow scenarios
+  - Heartbeat Monitor: load specified URL and store screenshot of the page and HTTP archive file. HAR can be used to view detailed performance data of the page
+  - API Canary: REST API testing. Can be integrated with API Gateway
+  - Broken Link Checker: collect all the links inside a URL for erros(404, invalide hostname, bad URL, etc)
+  - Visual Monitoring: compare screenshots taken during canary run with the screenshot taken during a baseline canary run. If the discrepancy between the two screenshots is beyond a threshold percentage, the canary fails.
+  - Canary Recorder: record your click and type actions on a website and automatically generate a Node.js script that can be used to create a canary that follows the same steps. The CloudWatch Synthetics Recorder is a Google Chrome extension provided by Amazon.
+  - GUI Workflow: like Datadog E2E test
+- In the event of failover in Aurora Global database, the endpoint of the secondary cluster will be changed(the `-ro` part will be remove as the cluster become a writer)
