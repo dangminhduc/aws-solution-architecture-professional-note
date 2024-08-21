@@ -26,6 +26,13 @@
 - Discovery Agent can not send log to S3, only to Application Discovery Service. In Migration Hub, enable Data Exploration to query data in Athena.
 - Application Discovery Service Agentless Collector for VMWare is a virtual machine, which is provided via an OVA file. It needs a IAM user credentials to authenticate with AWS to forward to the Application Discovery Service.
 - In DMS, the mapping rules(JSON) should be put in source endpoint config
+- Setting up cross-account access in Migration Hub to cosolidate discovery data from multiple AWS accounts into a single pane of glass.
+- AWS Application Migration Service reuqire
+  - Communication over TCP port 443
+    - source servers <-> MGN region endpoint
+    - staging area subnet <-> MGN region endpoint
+  - Communication over TCP port 1500 between source servers <-> staging area subnet
+    - Each source server with an installed AWS Replication Agent continuously communicates with the AWS Application Migration Service replication servers in the staging area subnet over TCP port 1500
 
 ## Network
 - NAT Gateway is only for IPv4. With IPv6, if you want to connect to internet from a private subnet, a egress-only internet gateway should be used.
@@ -44,6 +51,8 @@
   - Create a VPN connection: Create the VPN connection using the customer gateway in combination with the virtual private gateway or transit gateway that you created earlier.
   - Download the configuration file: After you create the VPN connection, you can download a sample configuration file to use for configuring the customer gateway device.
   - Configure the customer gateway device: Use the sample configuration file to configure your customer gateway device. The customer gateway device is the physical or software appliance on your side of the VPN connection
+- Direct Connect can be setup redundantly by creating 2nd connection to a different Direct Connection location to improve availability. 
+- 2 VPN connections from different Customer Gatewayto single Virtual Private Gateway with dynamic routing in BGP + VPN Equal-Cost Multi-Path routing can be implemented to increase availability. 
 
 ## IoT
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
@@ -245,3 +254,17 @@
   - Canary Recorder: record your click and type actions on a website and automatically generate a Node.js script that can be used to create a canary that follows the same steps. The CloudWatch Synthetics Recorder is a Google Chrome extension provided by Amazon.
   - GUI Workflow: like Datadog E2E test
 - In the event of failover in Aurora Global database, the endpoint of the secondary cluster will be changed(the `-ro` part will be remove as the cluster become a writer)
+- Elastic Transcoder(2013) use pipeline + job. MediaConvert(2017) support more formats(H265), use queue + job and also cheaper. Both using S3 as source
+- License Manager can automated tracking and enforcement rules dynamically to ensure license usage stay within allocated limits.
+- To replicate data from Apache Kafka cluster to another one, you can use MirrorMaker, which is multi-cluster data replication engine based on Kafka Connect framework.
+- Steps to create Hyperledger Farbic network using AWS Managed Blockchain
+  - Create a new Fabric network
+  - Create the first member of the network, including the administrative user and administrative password that are used to authenticate to the member's certificate authority (CA).
+  - (Optional) Integrate the external CA by updating the member configuration
+  - Create VPC endpoint for the network
+  - Create a Peer Node
+  - Set up a client
+  - Enroll an Administrative User
+  - Create a channel and join your peer node to the channel
+  - Invite member
+  - Manage network policies
