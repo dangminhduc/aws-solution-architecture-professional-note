@@ -144,6 +144,20 @@
 - Using AD Connector in the AWS Directory Service as a directory gateway to forward directory requests. Connect IAM Identity Center to the self-managed AD by using the AD Connector.
   - Trust relationship between AWS Managed Microsoft AD and the self-managed AD should be two-way and can not be one-way.
 - AWS Identity and Access Management (IAM) Access Analyzer helps to identify resources in your organization and accounts, such as S3 buckets or IAM roles, that are shared with an external entity.
+- You can only attach permission boundary only to a user or role, not a group
+- SCPs are not available in an organization in which only consolidated billing is enabled. For SCPs to be available, you must enable all features in the organization.
+- 
+
+## Database
+- Timestream is a serverless time series database which can be use to store and analyze events.
+  - Compare to traditional relational databases, it cost less.
+  - Has no limit in storage
+  - 2 tiers of storage: memory store and magnetic store.
+  - Based on retention policies, data can be moved from memory store to magnetic store for optimize cost
+  - Scheduled query can be used for reports, or for alarms that detect anomalies
+  - Timestream offers a choice of two databases: Amazon Timestream for LiveAnalytics and Amazon Timestream for InfluxDB.
+- In Amazon DocumentDB, storage scales automatically up to 128 TiB in Instance-based Clusters, and 4 PiB in Amazon DocumentDB Elastic Clusters
+
 
 ## Cognito
 - To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
@@ -212,11 +226,6 @@
   - Standard Workflows(exactly-once) are ideal for long-running (up to one year), durable, and auditable workflows. You can retrieve the full execution history using the Step Functions API for up to 90 days after your execution completes. Standard Workflows follow an exactly-once model, where your tasks and states are never run more than once, unless you have specified Retry behavior in ASL. This makes Standard Workflows suited to orchestrating non-idempotent actions, such as starting an Amazon EMR cluster or processing payments. Standard Workflow executions are billed according to the number of state transitions processed.
   - Asynchronous Express Workflows(At-least-once) return confirmation that the workflow was started, but don't wait for the workflow to complete. To get the result, you must poll the service's CloudWatch Logs. You can use Asynchronous Express Workflows when you don't require immediate response output, such as messaging services or data processing that other services don't depend on. You can start Asynchronous Express Workflows in response to an event, by a nested workflow in Step Functions, or by using the StartExecution API call.
   - Synchronous Express Workflows(At-most-once) start a workflow, wait until it completes, and then return the result. Synchronous Express Workflows can be used to orchestrate microservices. With Synchronous Express Workflows, you can develop applications without the need to develop additional code to handle errors, retries, or run parallel tasks. You can run Synchronous Express Workflows invoked from Amazon API Gateway, AWS Lambda, or by using the StartSyncExecution API call.
-- Timestream is a serverless time series database which can be use to store and analyze events.
-  - Compare to traditional relational databases, it cost less. 
-  - 2 tiers of storage: memory store and magnetic store.
-  - Based on retention policies, data can be moved from memory store to magnetic store for optimize cost
-  - Scheduled query can be used for reports, or for alarms that detect anomalies
 - S3 SSE-KMS encryption cost can be reduced by using bucket key
 - 2 ways to play video stream from Kinesis Video Streams
   - GetHLSStreamingSessionURL: Using HLS(HTTP Live Streaming) format, can be used in a media player or mobile phone player
@@ -244,11 +253,11 @@
   - And endpoint for the same VPC
   - An active connection between your Outposts and your AWS regions
   - Note: Because the AWS Management Console is hosted in-Region, you can't use the console to upload or manage objects in your Outpost. However, you can use the REST API, AWS Command Line Interface (AWS CLI), and AWS SDKs to upload and manage your objects through your access points.
-- S3 on Outposts has 2 access type: Private(for VPC routing) or CustomerOwnedIP(to work with both on-premise network and VPC)
+- S3 on Outposts has 2 access type: Private(for VPC routing, with private endpoint, data will stay AWS Network) or CustomerOwnedIP(to work with both on-premise network and VPC, the data will travese over the public internet)
 - To configure SSM Agent to send log data to CloudWatch Logs, edit the `/etc/amazon/ssm/seelog.xml.template`
 - CloudWatch Canary blueprint can be used for follow scenarios
-  - Heartbeat Monitor: load specified URL and store screenshot of the page and HTTP archive file. HAR can be used to view detailed performance data of the page
-  - API Canary: REST API testing. Can be integrated with API Gateway
+  - Heartbeat Monitor: load specified URL and store screenshot of the page and HTTP archive file. HAR can be used to view detailed performance data of the page. Only test if the target is reachable.
+  - API Canary: REST API testing. Can be integrated with API Gateway. It will check the API if it's reachable and responsed as expected.
   - Broken Link Checker: collect all the links inside a URL for erros(404, invalide hostname, bad URL, etc)
   - Visual Monitoring: compare screenshots taken during canary run with the screenshot taken during a baseline canary run. If the discrepancy between the two screenshots is beyond a threshold percentage, the canary fails.
   - Canary Recorder: record your click and type actions on a website and automatically generate a Node.js script that can be used to create a canary that follows the same steps. The CloudWatch Synthetics Recorder is a Google Chrome extension provided by Amazon.
@@ -268,3 +277,8 @@
   - Create a channel and join your peer node to the channel
   - Invite member
   - Manage network policies
+- Disaster Recovery
+  - A backup-and-restore DR solution is designed to achieve RPO within hours and RTO in 24 hours or less
+  - A pilot light DR solution is designed to achieve RPO within minutes and RTO within hours.
+  - A warm standby DR solution is designed to achieve RPO within seconds and RTO within minutes.
+  - A multi-Region (multi-site) active-active DR solution is designed to achieve near-zero RTO and RPO. 
