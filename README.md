@@ -157,7 +157,7 @@
   - Scheduled query can be used for reports, or for alarms that detect anomalies
   - Timestream offers a choice of two databases: Amazon Timestream for LiveAnalytics and Amazon Timestream for InfluxDB.
 - In Amazon DocumentDB, storage scales automatically up to 128 TiB in Instance-based Clusters, and 4 PiB in Amazon DocumentDB Elastic Clusters
-
+- Athena Federated Query uses AWS Lambda functions to access and query data from external databases, such as RDS, Redshift or other datasources. The Lambda function acts as a bridge between Athena and the external databases, allowing Athena to execute queries against data that resides outside of S3.
 
 ## Cognito
 - To enable guest access with Cognito, enable unauthenticated access in Cognito Identity Pool. Then guest users can request an identity ID via GetId API
@@ -230,7 +230,6 @@
 - 2 ways to play video stream from Kinesis Video Streams
   - GetHLSStreamingSessionURL: Using HLS(HTTP Live Streaming) format, can be used in a media player or mobile phone player
   - GetDASHStreamingSessionURL: Using MPEG Dynamic Streaming over HTTP, can be opend in the URL of the media player
-- When mounting EFS with TLS option(encrypt at transit). there is no need to allow traffic on specific port
 - Lambda layer is a .zip file archive that contains supplementary code or data. Layers usually contain library dependencies, a custom runtime or configuration files.
 - Lambda extensions can be used to integrate with monitoring, observability, security, governance tools
   - Extenal: runs as an independent process in the execution environment and continues to run after the function invocation is fully processed.
@@ -282,3 +281,6 @@
   - A pilot light DR solution is designed to achieve RPO within minutes and RTO within hours.
   - A warm standby DR solution is designed to achieve RPO within seconds and RTO within minutes.
   - A multi-Region (multi-site) active-active DR solution is designed to achieve near-zero RTO and RPO. 
+- Mounting EFS:
+  - EFS file system, EC2, ECS cluster, and Fargate task must be in the same VPC
+  - Allow inbound connection from port 2049 from the security group of Fargate task, allow outbound connection on port 2049 to EFS file system's security group.
