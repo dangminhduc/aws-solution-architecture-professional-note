@@ -55,6 +55,7 @@
 - 2 VPN connections from different Customer Gatewayto single Virtual Private Gateway with dynamic routing in BGP + VPN Equal-Cost Multi-Path routing can be implemented to increase availability. 
 
 ## IoT
+IoT Stack: https://docs.aws.amazon.com/whitepapers/latest/aws-overview/internet-of-things-services.html
 - AWS IoT Core helps you connect devices to AWS Services and other devices, secure data interactions, and process and act upon device data.
   - AWS IoT Core provides a fully managed palette of MQTT-based messaging features
 - AWS IoT SiteWise is a managed service that makes it easy to collect, organize, and analyze data from industrial equipment at scale.
